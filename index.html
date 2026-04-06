@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plataforma LMS Corporativa</title>
+  <style>
+    :root {
+      --bg: #07111f;
+      --bg-soft: #0d1b2e;
+      --card: rgba(255,255,255,0.07);
+      --line: rgba(255,255,255,0.09);
+      --text: #eef5ff;
+      --muted: #a8b7ce;
+      --primary: #31c3ff;
+      --primary-2: #4f46e5;
+      --accent: #22c55e;
+      --shadow: 0 24px 60px rgba(0,0,0,.32);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(49,195,255,.14), transparent 28%),
+        radial-gradient(circle at right, rgba(79,70,229,.14), transparent 22%),
+        linear-gradient(180deg, #07111f 0%, #081521 40%, #09111b 100%);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    .container { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+      background: rgba(7,17,31,.62);
+      border-bottom: 1px solid rgba(255,255,255,.05);
+    }
+
+    .nav-inner {
+      min-height: 76px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: .3px;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      color: white;
+      box-shadow: var(--shadow);
+      font-weight: 900;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: none;
+      border-radius: 999px;
+      padding: 14px 22px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: .25s ease;
+    }
+
+    .btn-primary {
+      color: white;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      box-shadow: 0 18px 40px rgba(49,195,255,.24);
+    }
+
+    .btn-secondary {
+      color: var(--text);
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.08);
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    .hero {
+      padding: 78px 0 46px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.08fr .92fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      padding: 8px 14px;
+      border-radius: 999px;
+      color: var(--primary);
+      background: rgba(49,195,255,.08);
+      border: 1px solid rgba(49,195,255,.14);
+      margin-bottom: 18px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: clamp(2.4rem, 5vw, 5.1rem);
+      line-height: .95;
+      letter-spacing: -.05em;
+      margin-bottom: 18px;
+      max-width: 11ch;
+    }
+
+    .lead {
+      color: var(--muted);
+      font-size: clamp(1rem, 1.8vw, 1.14rem);
+      max-width: 60ch;
+      margin-bottom: 28px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .badge {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.06);
+      color: #d5e2f2;
+      font-size: 13px;
+    }
+
+    .glass {
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.035));
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .panel { padding: 24px; }
+
+    .panel-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .mini {
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.06);
+    }
+
+    .mini span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    .mini strong {
+      font-size: 1.4rem;
+      letter-spacing: -.03em;
+    }
+
+    .feature-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .feature-list div {
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.06);
+      color: #dce8f8;
+    }
+
+    .section {
+      padding: 90px 0;
+    }
+
+    .section-head {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 42px;
+    }
+
+    .section-head h2 {
+      font-size: clamp(1.9rem, 3vw, 3.2rem);
+      letter-spacing: -.04em;
+      margin-bottom: 12px;
+    }
+
+    .section-head p { color: var(--muted); }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .card { padding: 26px; }
+
+    .icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 16px;
+      font-size: 22px;
+      background: linear-gradient(135deg, rgba(49,195,255,.16), rgba(79,70,229,.16));
+    }
+
+    .card h3 { margin-bottom: 10px; }
+    .card p, .card li { color: var(--muted); }
+
+    .list {
+      list-style: none;
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .list li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .list li::before {
+      content: "•";
+      color: var(--accent);
+      font-size: 1.2rem;
+      line-height: 1;
+      margin-top: 2px;
+    }
+
+    .quote {
+      padding: 18px;
+      border-left: 3px solid var(--primary);
+      background: rgba(255,255,255,.03);
+      border-radius: 16px;
+      color: #dce8f8;
+      margin-top: 18px;
+    }
+
+    .faq {
+      max-width: 860px;
+      margin: 0 auto;
+      display: grid;
+      gap: 14px;
+    }
+
+    .faq-item {
+      padding: 22px;
+      cursor: pointer;
+    }
+
+    .faq-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .faq-item p {
+      color: var(--muted);
+      max-height: 0;
+      overflow: hidden;
+      margin-top: 0;
+      transition: max-height .28s ease, margin-top .28s ease;
+    }
+
+    .faq-item.active p {
+      max-height: 180px;
+      margin-top: 12px;
+    }
+
+    .cta {
+      text-align: center;
+      padding: 40px;
+    }
+
+    .cta p {
+      color: var(--muted);
+      max-width: 680px;
+      margin: 12px auto 22px;
+    }
+
+    .footer {
+      text-align: center;
+      color: var(--muted);
+      padding: 28px 0 44px;
+      font-size: 14px;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .reveal.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 1024px) {
+      .hero-grid,
+      .grid-4,
+      .grid-3,
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+      .nav-links a:not(.btn) { display: none; }
+    }
+
+    @media (max-width: 640px) {
+      h1 { max-width: 100%; }
+      .hero-actions, .hero-badges { flex-direction: column; align-items: stretch; }
+      .btn { width: 100%; }
+      .mini-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a href="#top" class="brand">
+        <span class="brand-mark">L</span>
+        <span>LMS Corporate</span>
+      </a>
+      <div class="nav-links">
+        <a href="#beneficios">Benefícios</a>
+        <a href="#como-funciona">Como funciona</a>
+        <a href="#faq">FAQ</a>
+        <a href="#cta" class="btn btn-primary">Solicitar demo</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="reveal show">
+          <span class="eyebrow">Inspirada em plataformas LMS corporativas como referência</span>
+          <h1>Treinamento corporativo com mais controle, escala e engajamento.</h1>
+          <p class="lead">
+            Uma landing page simples para uma solução LMS/LXP focada em educação corporativa: onboarding, capacitação contínua, relatórios, gamificação e autoria de treinamentos em um só lugar.
+          </p>
+          <div class="hero-actions">
+            <a href="#cta" class="btn btn-primary">Solicitar demonstração</a>
+            <a href="#como-funciona" class="btn btn-secondary">Ver como funciona</a>
+          </div>
+          <div class="hero-badges">
+            <span class="badge">LMS / LXP</span>
+            <span class="badge">Educação corporativa</span>
+            <span class="badge">Relatórios + IA + gamificação</span>
+          </div>
+        </div>
+
+        <div class="panel glass reveal">
+          <div class="panel-top">
+            <span>Painel de treinamento</span>
+            <span>demo concept</span>
+          </div>
+          <div class="mini-grid">
+            <div class="mini">
+              <span>Relatórios</span>
+              <strong>21+</strong>
+            </div>
+            <div class="mini">
+              <span>Escalabilidade</span>
+              <strong>Alta</strong>
+            </div>
+            <div class="mini">
+              <span>Engajamento</span>
+              <strong>Gamificado</strong>
+            </div>
+            <div class="mini">
+              <span>Autoria</span>
+              <strong>Interativa</strong>
+            </div>
+          </div>
+          <div class="feature-list">
+            <div>✅ Cadastro em massa por planilha ou API</div>
+            <div>✅ Avaliações com múltiplos formatos e controle de tempo</div>
+            <div>✅ Conteúdo interativo com suporte de IA</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="beneficios" class="section">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2>Feita para empresas que precisam treinar melhor</h2>
+          <p>
+            Uma boa plataforma corporativa não serve só para hospedar cursos. Ela organiza a operação de treinamento, mede aprendizado e aumenta adesão.
+          </p>
+        </div>
+        <div class="grid-4">
+          <article class="card glass reveal">
+            <div class="icon">🚀</div>
+            <h3>Onboarding mais rápido</h3>
+            <p>Acelere a integração de novos colaboradores com trilhas bem organizadas e padronizadas.</p>
+          </article>
+          <article class="card glass reveal">
+            <div class="icon">📊</div>
+            <h3>Mais controle</h3>
+            <p>Acompanhe desempenho individual ou por equipe com relatórios detalhados.</p>
+          </article>
+          <article class="card glass reveal">
+            <div class="icon">🎯</div>
+            <h3>Menos falhas</h3>
+            <p>Reduza retrabalho, inconsistência de conteúdo e gargalos de treinamento presencial.</p>
+          </article>
+          <article class="card glass reveal">
+            <div class="icon">🎮</div>
+            <h3>Engajamento real</h3>
+            <p>Use gamificação, ranking, medalhas e recompensas para aumentar adesão.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="como-funciona" class="section">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2>Como funciona</h2>
+          <p>Uma operação de treinamento mais simples, mas com mais inteligência por trás.</p>
+        </div>
+        <div class="grid-4">
+          <article class="card glass reveal">
+            <div class="icon">1</div>
+            <h3>Importe pessoas</h3>
+            <p>Cadastre colaboradores em massa por planilha ou conecte via API com seu sistema de pessoas.</p>
+          </article>
+          <article class="card glass reveal">
+            <div class="icon">2</div>
+            <h3>Monte trilhas</h3>
+            <p>Associe conteúdos e jornadas por cargo, área, parceiro, cliente ou objetivo.</p>
+          </article>
+          <article class="card glass reveal">
+            <div class="icon">3</div>
+            <h3>Avalie e acompanhe</h3>
+            <p>Aplique avaliações seguras e monitore aprendizado com visão operacional.</p>
+          </article>
+          <article class="card glass reveal">
+            <div class="icon">4</div>
+            <h3>Otimize com dados</h3>
+            <p>Descubra gargalos, melhore adesão e evolua continuamente a estratégia de treinamento.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container grid-2">
+        <div class="card glass reveal">
+          <h3>Diferenciais que aumentam percepção de valor</h3>
+          <ul class="list">
+            <li>Visual amigável com experiência inspirada em plataformas de streaming</li>
+            <li>Ferramentas de autoria para criar treinamentos próprios</li>
+            <li>IA para apoiar criação de avaliações</li>
+            <li>Gamificação com medalhas, ranking e prêmios</li>
+            <li>Treinamento online ou híbrido em qualquer tela</li>
+          </ul>
+        </div>
+        <div class="card glass reveal">
+          <h3>O que essa LP está vendendo de verdade</h3>
+          <p>
+            Não é só software. É a promessa de transformar treinamento em uma operação escalável, mensurável e mais atrativa para quem aprende.
+          </p>
+          <div class="quote" id="quoteBox">
+            “Uma boa plataforma de treinamento não só hospeda conteúdo — ela organiza a evolução da equipe.”
+          </div>
+          <div style="margin-top:18px; display:flex; gap:12px; flex-wrap:wrap;">
+            <button class="btn btn-primary" id="changeQuote">Trocar insight</button>
+            <button class="btn btn-secondary" id="alertBtn">Ver observação</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="section">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2>Perguntas frequentes</h2>
+          <p>Uma LP simples, mas com a estrutura comercial certa para vender demonstração.</p>
+        </div>
+        <div class="faq">
+          <div class="faq-item glass reveal active">
+            <div class="faq-top">
+              <strong>Serve só para colaboradores internos?</strong>
+              <span>+</span>
+            </div>
+            <p>Não. Também pode ser usada para treinar parceiros, distribuidores, franqueados e até clientes.</p>
+          </div>
+          <div class="faq-item glass reveal">
+            <div class="faq-top">
+              <strong>Preciso já ter conteúdo pronto?</strong>
+              <span>+</span>
+            </div>
+            <p>Não necessariamente. A proposta pode incluir autoria, adaptação de materiais e criação de novas trilhas.</p>
+          </div>
+          <div class="faq-item glass reveal">
+            <div class="faq-top">
+              <strong>Essa base pode virar uma LP real?</strong>
+              <span>+</span>
+            </div>
+            <p>Sim. Dá para adicionar formulário, integração comercial, CTA de WhatsApp e prova social mais robusta.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="cta" class="section">
+      <div class="container">
+        <div class="cta glass reveal">
+          <h2>Quer transformar treinamento em vantagem competitiva?</h2>
+          <p>
+            Esta página foi criada como uma LP simples em HTML, CSS e JS inspirada na proposta de LMS corporativo da Líteris. Pode virar base para uma página comercial real sem dificuldade.
+          </p>
+          <button class="btn btn-primary" id="finalBtn">Solicitar uma demonstração</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">Landing page single-file inspirada em plataforma LMS/LXP para educação corporativa.</div>
+  </footer>
+
+  <script>
+    const quoteBox = document.getElementById('quoteBox');
+    const changeQuote = document.getElementById('changeQuote');
+    const alertBtn = document.getElementById('alertBtn');
+    const finalBtn = document.getElementById('finalBtn');
+
+    const quotes = [
+      '“Uma boa plataforma de treinamento não só hospeda conteúdo — ela organiza a evolução da equipe.”',
+      '“O valor percebido cresce quando a empresa sente controle, engajamento e visibilidade.”',
+      '“LMS bom não é biblioteca de curso. É operação inteligente de aprendizagem.”'
+    ];
+
+    let quoteIndex = 0;
+    changeQuote.addEventListener('click', () => {
+      quoteIndex = (quoteIndex + 1) % quotes.length;
+      quoteBox.textContent = quotes[quoteIndex];
+    });
+
+    alertBtn.addEventListener('click', () => {
+      alert('A estrutura desta LP foi pensada para vender demonstração e clareza de valor: menos ruído e mais foco na proposta corporativa.');
+    });
+
+    finalBtn.addEventListener('click', () => {
+      alert('Próximo passo: conectar formulário, prova social mais forte e CTA comercial real.');
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('show');
+      });
+    }, { threshold: 0.14 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    document.querySelectorAll('.faq-item').forEach(item => item.addEventListener('click', () => item.classList.toggle('active')));
+  </script>
+</body>
+</html>
